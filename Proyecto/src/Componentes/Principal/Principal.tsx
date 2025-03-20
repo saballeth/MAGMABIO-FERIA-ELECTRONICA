@@ -1,9 +1,22 @@
-import React from "react";
-import "./Principal.css"; // Importando los estilos
+import React, { useState, useEffect } from "react";
+import Navbar from "../navbar/navbar"; // Asegúrate de importar el Navbar
+import "./Principal.css";
 
 const PrincipalComponente = () => {
+  const [dots, setDots] = useState("");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setDots(prevDots => (prevDots.length < 3 ? prevDots + "." : ""));
+    }, 500); // Cambia cada 500ms
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="principal-container">
+      <Navbar /> {/* Aquí el navbar estará dentro del fondo */}
+
       <div className="overlay"></div>
 
       <div className="content">
@@ -12,7 +25,7 @@ const PrincipalComponente = () => {
 
         <div className="info">
           <h2>ACTIVIDAD FÍSICA</h2>
-          <p className="text-highlight">Sensores EMG</p>
+          <p className="text-highlight-orange">Sensores EMG</p>
           <p className="description">
             La integración de EMG en juegos no solo mejorará la jugabilidad, sino que también fomentará la actividad física y la rehabilitación de manera entretenida.
           </p>
@@ -21,7 +34,9 @@ const PrincipalComponente = () => {
           <p className="text-highlight-orange">Impresiona a la audiencia</p>
         </div>
 
-        <p className="waiting">ESPERANDO QUE LOS JUGADORES SE CONECTEN...</p>
+        <p className="subtitle">
+          ESPERANDO QUE LOS JUGADORES SE CONECTEN...
+        </p>
       </div>
     </div>
   );

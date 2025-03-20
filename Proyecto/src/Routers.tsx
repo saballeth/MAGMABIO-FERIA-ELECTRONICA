@@ -1,6 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import Principal from "./Vistas/Principal";
-import Navbar from "./Componentes/navbar/navbar"; // Asegúrate de que la ruta sea correcta
+import Navbar from "./Componentes/navbar/navbar"; 
+import Carrera from "./Vistas/Carrera"
 
 const Routers: React.FC = () => {
   return (
@@ -10,6 +11,7 @@ const Routers: React.FC = () => {
         <Routes>
           <Route path="/" element={<Principal />} />
           <Route path="*" element={<Principal />} />
+          <Route path="/carrera" element={<Carrera />} />
         </Routes>
       </main>
     </div>
