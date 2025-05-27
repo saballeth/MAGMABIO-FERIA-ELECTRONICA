@@ -9,7 +9,6 @@ const Routers: React.FC = () => {
       <Navbar />
       <main className="flex-grow flex items-center justify-center">
         <Routes>
-          <Route path="/" element={<Principal />} />
           <Route path="*" element={<Principal />} />
           <Route path="/carrera" element={<Carrera />} />
         </Routes>

@@ -1,16 +1,14 @@
-import { Link } from "react-router-dom";
+import React from "react";
 import "./Navbar.css";
 
 const Navbar: React.FC = () => {
   return (
     <nav className="navbar">
-      <ul className="nav-links">
-        <li>
-          <Link to="/" className="nav-item">Inicio</Link>
-        </li>
-        <li>
-          <Link to="/about" className="nav-item">Acerca de</Link>
-        </li>
+      <h1 className="navbar-title">RoadGame</h1>
+      <ul className="navbar-menu">
+        <li><a href="#" className="navbar-link">Inicio</a></li>
+        <li><a href="#" className="navbar-link">Juego</a></li>
+        <li><a href="#" className="navbar-link">Acerca</a></li>
       </ul>
     </nav>
   );
