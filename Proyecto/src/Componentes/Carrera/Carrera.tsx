@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useCallback, useState } from "react";
-
+import { useEMGEstado } from "../../Data/EstadoEMG";
 const skyColor = "#87ceeb";
 const grassColor = "#4caf50";
 const roadColor = "#2c3e50";
@@ -17,7 +17,10 @@ const RoadCanvas: React.FC = () => {
   const [car1Pos, setCar1Pos] = useState(0); // Rojo
   const [car2Pos, setCar2Pos] = useState(0); // Azul
   const [winner, setWinner] = useState<string | null>(null);
-
+  
+  const emgEstado = useEMGEstado();
+  const [prevEmgEstado, setPrevEmgEstado] = useState<string>("");
+  
   const drawRoad = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -107,28 +110,41 @@ const RoadCanvas: React.FC = () => {
     drawRoad();
   }, [drawRoad]);
 
-  // Manejar teclas y detectar ganador
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (winner) return; // No permitir mover si ya hay ganador
-
+    useEffect(() => {
+      console.log("emgEstado:", emgEstado, "prevEmgEstado:", prevEmgEstado);
+    if (winner) return;
+    if (emgEstado === "contracción" && prevEmgEstado !== "") {
       const canvas = canvasRef.current;
       if (!canvas) return;
       const width = canvas.width;
       const roadLeft = width * 0.05;
       const roadWidth = width * 0.9;
       const metaX = roadLeft + roadWidth - 10 - carWidth;
+  
+      setCar1Pos((pos) => {
+        const newPos = pos + carStep;
+        if (roadLeft + 30 + newPos >= metaX) {
+          setWinner("¡Ganó el carro azul!");
+          return metaX - roadLeft - 30;
+        }
+        return newPos;
+      });
+    }
+    setPrevEmgEstado(emgEstado);
+    // eslint-disable-next-line
+  }, [emgEstado, winner]);
 
-      if (e.key === "r" || e.key === "R") {
-        setCar1Pos((pos) => {
-          const newPos = pos + carStep;
-          if (roadLeft + 30 + newPos >= metaX) {
-            setWinner("¡Ganó el carro ROJO!");
-            return metaX - roadLeft - 30;
-          }
-          return newPos;
-        });
-      }
+
+    useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (winner) return;
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const width = canvas.width;
+      const roadLeft = width * 0.05;
+      const roadWidth = width * 0.9;
+      const metaX = roadLeft + roadWidth - 10 - carWidth;
+  
       if (e.key === "w" || e.key === "W") {
         setCar2Pos((pos) => {
           const newPos = pos + carStep;
