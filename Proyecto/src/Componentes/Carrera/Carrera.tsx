@@ -18,7 +18,7 @@ const RoadCanvas: React.FC = () => {
   const [car2Pos, setCar2Pos] = useState(0); // Azul
   const [winner, setWinner] = useState<string | null>(null);
   
-  const emgEstado = useEMGEstado();
+   const emgEstado = useEMGEstado(400);
   const [prevEmgEstado, setPrevEmgEstado] = useState<string>("");
   
   const drawRoad = useCallback(() => {
@@ -111,9 +111,8 @@ const RoadCanvas: React.FC = () => {
   }, [drawRoad]);
 
     useEffect(() => {
-      console.log("emgEstado:", emgEstado, "prevEmgEstado:", prevEmgEstado);
     if (winner) return;
-    if (emgEstado === "contracción" && prevEmgEstado !== "") {
+    if (emgEstado === "contracción" && prevEmgEstado !== "contracción") {
       const canvas = canvasRef.current;
       if (!canvas) return;
       const width = canvas.width;
@@ -131,7 +130,6 @@ const RoadCanvas: React.FC = () => {
       });
     }
     setPrevEmgEstado(emgEstado);
-    // eslint-disable-next-line
   }, [emgEstado, winner]);
 
 
